@@ -6,81 +6,53 @@
 
 In Project 1, **we will build implementations of a “Double Ended Queue”** using both lists and arrays in a **package** that other classes can use. **The project is roughly split into two halves: the data structure portion and the application portion.**
 
-In the data structure part of the project, you will create two Java files: `LinkedListDeque.java` and `ArrayDeque.java`, with public methods listed below. You will be verifying the correctness of these data structures yourself using the randomized and timing test skills you **gained from Lab 3.**
+在项目的数据结构部分，您将使用下面列出的公共方法创建两个Java文件：`LinkedListDeque.Java `和`ArrayDeque.Java`。您将使用您从实验室3中获得的**随机和计时测试技能**来验证这些数据结构的正确性
 
-In the application part of this project, you’ll create a Java file `MaxArrayDeque.java` as well as use your package to ultimately implement a sound synthesizer capable of playing music from Guitar Hero. You must test your `MaxArrayDeque`, but we’ll provide the tests for sound synthesizer.
+在本项目的应用程序部分，您将创建一个Java文件“`MaxArrayDeque.Java`”，并使用您的包最终实现一个能够播放GuitarHero音乐的声音合成器。您必须测试您的“`MaxArrayDeque`”，但我们将为声音合成器提供测试。
 
 我们将提供相对较少的脚手架。换句话说，我们会说你应该做什么，但不会说怎么做。
 
 ## Getting the Skeleton Files
 
-As with Project 0, you should start by downloading the skeleton files.
-
-To do this, head to the folder containing your copy of your repository. For example, if your login is ‘s101’, then head to the ‘sp21-s101’ folder (or any subdirectory).
-
-To make sure you have the latest copy of the skeleton files, use the command:
-
-```
-git pull skeleton master
-```
-
-If you’re using a newer version of git, you might need to run:
-
-```
-git pull skeleton master -allow-unrelated-histories
-```
-
-You should now see a proj1 directory appear with two folders:
-
-```
- proj1
-├── deque
-│   └── LinkedListDequeTest.java
-└── gh2
-    ├── GuitarHeroLite.java
-    ├── GuitarPlayer.java
-    ├── GuitarString.java
-    ├── TTFAF.java
-    └── TestGuitarString.java
-```
-
-If you get some sort of error, STOP and either figure it out by carefully reading the [git guide](https://sp21.datastructur.es/materials/guides/using-git) or seek help at OH or Ed. You’ll potentially save yourself a lot of trouble vs. guess-and-check with git commands. If you find yourself trying to use commands recommended by Google like `force push`, [don’t](https://twitter.com/heathercmiller/status/526770571728531456). **Don’t use force push, even if a post you found on Stack Overflow says to do it!**
-
 The only provided files in the skeleton are the `deque/LinkedListDequeTest.java` file as well as some skeleton for the second part of this project located in the `gh2` folder (guitar hero 2). **The `deque/LinkedListDequeTest.java` file provides examples of how you might write tests to verify the correctness of your code. We strongly encourage you try out the given tests, as well as to write your own, as these tests are not comprehensive. ==提供的测试并不完备, 所以需要我们自己创建测试==**
 
 The tests in this file are also the exact tests that will be used in the checkpoint to assess your progress on your `LinkedListDeque` implementation, but we will also have additional tests for `ArrayDeque` that we do not give you. More details on the appear checkpoint later in the spec.
 
-Before we get into the details of the Deque API and the implementation requirements, let’s briefly talk about packages and why we are using them in this project.
+在我们深入了解Deque API和实现需求的细节之前，让我们简要谈谈package以及为什么我们在这个项目中使用它们。
 
 ### Packages
 
-Part of this project is using packages to separate logic and functionality. At the end of the project, you’ll have two packages: the `deque` package that provides an implementation of the `Deque` data structure, and the `gh2` package that implements a synthesizer used to play guitar hero. You should already see folders with these names in the starter code, and your job is to implement them. Let’s look at the specifics for what a package really *is*.
+Part of this project is ==using packages to separate logic and functionality==. **At the end of the project, you’ll have two packages: the `deque` package that provides an implementation of the `Deque` data structure, and the `gh2` package that implements a synthesizer(音响合成器) used to play guitar hero.** You should already see folders with these names in the starter code, and your job is to implement them. Let’s look at the specifics for what a package really *is*.
 
-A package is a collection of Java classes that all work together towards some common goal. We’ve already seen packages in CS 61B without knowing it. For example, `org.junit` is a package that contains various classes useful for testing, including our familiar `Assert` class, which contains useful static methods like `assertEquals`. In other words, when we saw `org.junit.Assert.assertEquals`, the `org.junit` was the package name, `Assert` was the class name, and `assertEquals` was the method name. We call `org.junit.Assert.assertEquals` the “canonical name” of the method, and we call `assertEquals` the “simple name” of the method.
+==**A package is a collection of Java classes that all work together towards some common goal**==. We’ve already seen packages in CS 61B without knowing it. **For example, `org.junit` is a package that contains various classes useful for testing,** including our familiar `Assert` class, which contains useful static methods like `assertEquals`. In other words, when we saw ==`org.junit.Assert.assertEquals`, the `org.junit` was the package name, `Assert` was the class name, and `assertEquals` was the method name==. We call `org.junit.Assert.assertEquals` the “==**canonical name(规范名)**==” of the method, and we call `assertEquals` the “==simple name==” of the method.
 
-When creating a package, we specify that code is part of a package by specifying the package name at the top of the file using the `package` keyword. For example, if we wanted to declare that a file is part of the `deque` package, we’d add the following line to the top of the file.
+> canonical name
 
-```
+==When creating a package, we specify that code is part of a package by specifying the package name at the top of the file using the `package` keyword.== For example, if we wanted to declare that a file is part of the `deque` package, we’d add the following line to the top of the file.**==在创建包时，我们通过使用“package”关键字在文件顶部指定包名来指定代码是包的一部分==**
+
+```java
 package deque;
 ```
 
-If a programmer wanted to use a class or method from our `deque` package, they would have to either use the full canonical name, e.g. `deque.ArrayDeque`, or alternately use `import deque.ArrayDeque`, at which point they could just use the simple name `ArrayDeque`. So `import` statements just allow you to use the simple name of a class/method.
+If a programmer wanted to use a class or method from our `deque` package, they would have to either use the full canonical name, e.g. `deque.ArrayDeque`, or ==alternately use `import deque.ArrayDeque`==, at which point they could just use the simple name `ArrayDeque`. ==**So `import` statements just allow you to use the simple name of a class/method**==.
 
-Typically, package names are the internet address of the entity writing the code, but backwards. For example, the JUnit library is hosted at `junit.org`, so the package is called `org.junit`.
+==Typically, package names are the internet address of the entity writing the code, but backwards. For example, the JUnit library is hosted at `junit.org`, so the package is called `org.junit`.通常，包名是编写代码的实体的互联网地址，但向后。例如，JUnit库托管在“JUnit.org”，因此包名为“org.JUnit”。==
 
-Why are packages useful? It all boils down to that word “canonical”. As long as no two programmers use the same package name for their package, we can freely use the same class name in several different contexts. For example, there might exist a class called `com.hrblock.TaxCalculator`, which is different from `com.turbotax.TaxCalculator`. Given the requirement to either use the full canonical name or to use an import, this means we’ll never accidentally use one class when we meant to use the other.
+**Why are packages useful? It all boils down to that word “canonical”**. As long as no two programmers use the same package name for their package, we can freely use the same class name in several different contexts. For example, there might exist a class called `com.hrblock.TaxCalculator`, which is different from `com.turbotax.TaxCalculator`. Given the requirement to either use the full canonical name or to use an import, this means we’ll never accidentally use one class when we meant to use the other. **就是不会造成名字冲突**
 
-Conceptually, you can think of packages as being similar to different folders on your computer. When you are building a large system, it is a good idea to organize it into different packages.
+Conceptually, you can think of packages as being similar to different folders on your computer. When you are building a large system, it is a good idea to organize it into different packages.从概念上讲，您可以将软件包视为与计算机上的不同文件夹相似。当您构建一个大型系统时，最好将其组织成不同的包。
 
-From this point forwards, most of our code in CS 61B will be part of a package.
+==**From this point forwards, most of our code in CS 61B will be part of a package.**从这一点开始，我们在CS61B中的大部分代码将成为一个包的一部分。==
 
 With that out of the way, let’s talk about the methods that a Deque should have.
 
 ## The Deque API
 
+> API : Application Program Interface 应用程序接口
+
 The double ended queue is very similar to the SLList and AList classes that we’ve discussed in class. Here is a definition from [cplusplus.com](http://www.cplusplus.com/reference/deque/deque/).
 
-> Deque (usually pronounced like “deck”) is an irregular acronym of double-ended queue. Double-ended queues are sequence containers with dynamic sizes that can be expanded or contracted on both ends (either its front or its back).
+> ==Deque==(usually pronounced like “deck”) is an irregular acronym of double-ended queue. **==Double-ended queues== are sequence containers with dynamic sizes that can be expanded or contracted on both ends (either its front or its back).**
 
 Specifically, any deque implementation must have exactly the following operations:
 
@@ -100,29 +72,29 @@ In addition, we also want our two Deques to implement these two special methods:
 
 ADDED 2/12: You should not have your `Deque` interface implement `Iterable` but rather just the two implementations `LinkedListDeque` and `ArrayDeque`. If you do the former, our autograder will give you API errors.
 
-You’ll learn what an `Iterator` is in lecture 11 (2/12), so don’t worry for about it right now. This project is meant to be done little by little as you learn more things from lecture and discussion, and it’s a fantastic opportunity to practice all the things you learn in this course.
+你将在第11课（2/12）中学习“`Iterable`”是什么，所以现在不要担心它。当你从讲座和讨论中学习到更多东西时，这个项目将逐步完成，这是一个很好的机会来实践你在本课程中学到的所有东西。
 
-Your class should accept any generic type (not just integers). For information on creating and using generic data structures, see [lecture 5](https://docs.google.com/presentation/d/19TTe3JgFscc4RLwokvQ_gOM72DSrfs9Y6ZST_fv3aQ4). Make sure to pay close attention to the rules of thumb on the last slide about generics.
+**您的类应该接受任何泛型类型**（而不仅仅是整数）。有关创建和使用通用数据结构的信息，请参见[讲座5](https://docs.google.com/presentation/d/19TTe3JgFscc4RLwokvQ_gOM72DSrfs9Y6ZST_fv3aQ4). 确保密切关注上一张幻灯片中关于泛型的经验法则。
 
-In this project, you will provide two implementations for the Deque interface: one powered by a Linked List, and one by a resizing array.
+在本项目中，**您将为Deque接口提供两个实现：一个由链接列表提供支持，另一个由调整大小的数组提供支持。**
 
 ## Project Tasks
 
-### 1. Linked List Deque
+### 1. Linked List Deque 基于链表的deque
 
-*Note: We covered everything needed in lecture to do this part in Lectures 4 and 5 (1/27 and 1/25) with the exception of Iterators, which you’ll learn about in lecture 11 (2/12).*
+> *注：我们在第4课和第5课（1/27和1/25）中涵盖了完成这一部分所需的所有内容，但迭代器除外，您将在第11课（2/12）中了解迭代器*
 
-Create a file called `LinkedListDeque.java` in your `proj1/deque` directory. Make sure you declare that it is in the `deque` package using the special `package` keyword.
+在“`proj1/deque`”目录中创建一个名为“`LinkedListDeque.java`”的文件, 确保使用特殊的“`package`”关键字声明它位于“`deque`”包中
 
 As your first deque implementation, you’ll build the `LinkedListDeque` class, which will be Linked List based.
 
-Your operations are subject to the following rules:
+Your operations are subject to(遵循) the following rules:
 
-- `add` and `remove` operations must not involve any looping or recursion. A single such operation must take “constant time”, i.e. execution time should not depend on the size of the deque. This means that you cannot use loops that go over all/most elements of the deque.
-- `get` must use iteration, not recursion.
-- `size` must take constant time.
-- Iterating over the `LinkedListDeque` using a for-each loop should take time proportional to the number of items.
-- Do not maintain references to items that are no longer in the deque. The amount of memory that your program uses at any given time must be proportional to the number of items. For example, if you add 10,000 items to the deque, and then remove 9,999 items, the resulting memory usage should amount to a deque with 1 item, and not 10,000. Remember that the Java garbage collector will “delete” things for us if and only if there are no pointers to that object.
+- `add`和`remove`操作不能涉及任何循环或递归。单个这样的操作必须花费“**恒定时间**”，即执行时间不应取决于deque的大小。这意味着不能使用遍历deque的所有/大多数元素的循环。
+- **`get` must use iteration, not recursion**.`get`必须使用迭代，而不是递归。
+- **`size` must take constant time.**`size`必须花费恒定的时间。
+- Iterating over the `LinkedListDeque` using a for-each loop should take time proportional to the number of items.使用for each循环遍历“`LinkedListDeque`”所需的时间应与项的数量成比例。
+- 不要维护对不再在deque中的项目的引用。**程序在任何给定时间使用的内存量必须与项目数量成比例**。例如，**如果将10000个项目添加到deque，然后删除9999个项目，则所产生的内存使用量应等于一个带有1个项目的deque，而不是10000个项目。请记住，==Java垃圾收集器将为我们“删除”对象，当且仅当没有指向该对象的指针时==。**
 
 Implement all the methods listed above in “The Deque API” section.
 
@@ -131,11 +103,11 @@ In addition, you also need to implement:
 - `public LinkedListDeque()`: Creates an empty linked list deque.
 - `public T getRecursive(int index)`: Same as get, but uses recursion.
 
-You may add any private helper classes or methods in `LinkedListDeque.java` if you deem it necessary. If you do, please add helpful javadoc comments for your and your TAs sake.
+如果您认为有必要，可以在“`LinkedListDeque.java`”中添加任何私有助手类或方法。如果您这样做了，请为您和您的助教添加有用的javadoc注释。
 
-While this may sound simple, there are many design issues to consider, and you may find the implementation more challenging than you’d expect. Make sure to consult the lecture on doubly linked lists, particularly the slides on sentinel nodes: [two sentinel topology](https://docs.google.com/presentation/d/1suIeJ1SIGxoNDT8enLwsSrMxcw4JTvJBsMcdARpqQCk/pub?start=false&loop=false&delayms=3000&slide=id.g829fe3f43_0_291), and [circular sentinel topology](https://docs.google.com/presentation/d/1suIeJ1SIGxoNDT8enLwsSrMxcw4JTvJBsMcdARpqQCk/pub?start=false&loop=false&delayms=3000&slide=id.g829fe3f43_0_376). I prefer the circular approach. **You are not allowed to use Java’s built in LinkedList data structure (or any data structure from `java.util.\*`) in your implementation** and the autograder will instantly give you a 0 if we detect that you’ve imported any such data structure.
+While this may sound simple, there are many design issues to consider, and you may find the implementation more challenging than you’d expect. Make sure to consult the lecture on doubly linked lists, particularly the slides on sentinel nodes: [two sentinel topology](https://docs.google.com/presentation/d/1suIeJ1SIGxoNDT8enLwsSrMxcw4JTvJBsMcdARpqQCk/pub?start=false&loop=false&delayms=3000&slide=id.g829fe3f43_0_291), and [circular sentinel topology](https://docs.google.com/presentation/d/1suIeJ1SIGxoNDT8enLwsSrMxcw4JTvJBsMcdARpqQCk/pub?start=false&loop=false&delayms=3000&slide=id.g829fe3f43_0_376). I prefer the circular approach. **You are not allowed to use Java’s built in LinkedList data structure (or any data structure from `java.util.\*`) in your implementation** and the autograder will instantly give you a 0 if we detect that you’ve imported any such data structure. 虽然这听起来很简单，但有很多设计问题需要考虑，**而且您可能会发现实现比您预期的更具挑战性**。确保参考双链接列表的讲座，特别是哨兵节点的幻灯片：[两个哨兵拓扑](https://docs.google.com/presentation/d/1suIeJ1SIGxoNDT8enLwsSrMxcw4JTvJBsMcdARpqQCk/pub?start=false&loop=false&delayms=3000&slide=id.g829fe3f43_0_291)，和[环形哨兵拓扑](https://docs.google.com/presentation/d/1suIeJ1SIGxoNDT8enLwsSrMxcw4JTvJBsMcdARpqQCk/pub?start=false&loop=false&delayms=3000&slide=id.g829fe3f43_0_376). 我更喜欢循环方法**您不允许在实现**中使用Java内置的LinkedList数据结构（或`Java.util.\*`中的任何数据结构），如果我们检测到您导入了任何此类数据结构，自动转换器将立即给您一个0.
 
-### 2. Array Deque
+### 2. Array Deque 基于数组的deque
 
 *Note: We’ll have covered everything needed in lecture to do this part by lecture 7 (2/03) with the exception of Iterators, which you’ll learn about in lecture 11 (2/12).*
 
@@ -147,8 +119,8 @@ For this implementation, your operations are subject to the following rules:
 
 - `add` and `remove` must take constant time, except during resizing operations.
 - `get` and `size` must take constant time.
-- The starting size of your array should be 8.
-- The amount of memory that your program uses at any given time must be proportional to the number of items. For example, if you add 10,000 items to the deque, and then remove 9,999 items, you shouldn’t still be using an array of length 10,000ish. For arrays of length 16 or more, your usage factor should always be at least 25%. This means that before performing a remove operation that will bring the number of elements in the array under 25% the length of the array, you should resize the size of the array down. For smaller arrays, your usage factor can be arbitrarily low.
+- **The starting size of your array should be 8.**
+- 程序在任何给定时间使用的内存量必须与项目数量成比例。例如，如果向deque中添加10000个项目，然后删除9999个项目，则不应该仍然使用长度为10000ish的数组。对于长度为16或更长的数组，使用系数应始终至少为25%。这意味着在执行将使数组中的元素数小于数组长度的25%的移除操作之前，应该减小数组的大小。对于较小的阵列，使用率可以任意低。
 
 Implement all the methods listed above in “The Deque API” section.
 
@@ -162,69 +134,49 @@ You will need to somehow keep track of what array indices hold the Deque’s fro
 
 Correctly resizing your array is **very tricky**, and will require some deep thought. Try drawing out various approaches by hand. It may take you quite some time to come up with the right approach, and we encourage you to debate the big ideas with your fellow students or TAs. Make sure that your actual implementation **is by you alone**.
 
-## Extra Credit: Checkpoint
-
-To keep you on track for this project, we have a checkpoint due on 2/05 for 16 extra credit points. The autograder for the checkpoint will test basic functionality of your `LinkedListDeque` and `ArrayDeque` classes: specifically, the given tests in `LinkedListDequeTest.java` will be used to test your `LinkedListDeque` implementation, and we will use our own tests to test your `ArrayDeque` implementation. By “basic functionality”, we mean all the `add` methods, all the `remove` methods, the `size` method, the `isEmpty` method, and the `get` method. This means we will not test your `equals(Object o)` nor your `iterator()` methods.
-
-NOTE: the `isEmpty` has been on the grader the whole time but we added this to the spec today (2/5). However, if you made the `size` method, this method should be a piece of cake (you can make it a one-liner).
-
-Importantly, **we will insert no more than 8 items in your `ArrayDeque`**, meaning you shouldn’t have to worry about resizing for this checkpoint.
-
-You may choose not to do the checkpoint, but we **highly suggest you do** so that you stay on track and earn some extra credit while you’re at it.
-
-The rest of the assignment will not be considered in the checkpoint.
-
 ## Testing
 
-Testing is an important part of code writing in industry and academia. It is an essential skill that can prevent monetary loss and hazardous bugs in industry, or in your case, losing points. Learning how to write good, comprehensive unit tests, and developing a good habit of always testing code before shipping are some core objectives of CS 61B.
+测试是工业界和学术界编写代码的重要组成部分。这是一项基本技能，可以防止金钱损失和行业中的危险漏洞，或者在您的情况下，损失分数。学习如何编写好的、全面的单元测试，养成在发货前总是测试代码的好习惯是CS61B的一些核心目标。
 
-In the start code, we have provided you a very simple sanity check, `LinkedListDequeTest.java`. To use the sample testing file, you must uncomment the lines in the sample tests. Only uncomment a test once you have implemented all of the methods used by that test (otherwise it won’t compile). Execute the main method to run the tests. When testing your project, **remember you can use the visualizer from inside IntelliJ!**
+在开始代码中，我们为您提供了一个非常简单的健全性检查`LinkedListDequeTest.java `。要使用示例测试文件，必须取消注释示例测试中的行。只有在您实现了测试所使用的所有方法之后，才能取消注释测试（否则它不会编译）。执行main方法以运行测试。测试项目时，**请记住，您可以使用IntelliJ内部的可视化工具**
 
-You will not submit `LinkedListDequeTest.java`. It is for your benefit to write more comprehensive tests for both `LinkedListDeque` and `ArrayDeque` before submitting. Note, passing the given tests in `LinkedListDequeTest.java` does *not necessarily* mean that you will pass all of the autograder tests or receive full credit on the full autograder
+您不会提交“`LinkedListDequeTest.java`”。在提交之前，为“`LinkedList Deque`”和“`ArrayDeque`”编写更全面的测试对您有利。注意，通过“`LinkedListDequeTest.java`”中的给定测试并不一定意味着您将通过所有自动转换器测试或获得完整自动转换器的全部积分.
 
-Because the part of the goals for this project is for you to build something and assess the correctness by yourself, we do not want you to become to reliant on the full autograder to verify correctness. Thus, you will receive one autograder token that recharges every 8 hours. You cannot “stack” these tokens, so if you do not submit anything to the autograder for 3 days, you still only have one token.
+那么，如何验证数据结构的正确性？你用你从实验室3学到的技能！我们鼓励您复制和粘贴“SList”和“AList”的测试，并根据这些数据结构调整它们。这些测试看起来非常相似，只需要进行基本更改。
 
-On Saturday 2/13, the recharge rate will permanently reduce to every 20 minutes.
-
-So how do you verify correctness of your data structure? You use your skills that you got from Lab 3! You are encouraged to copy and paste those tests for `SList` and `AList` and adapt them for these data structures. The tests will look very similar and only require basic changes.
-
-While it does seem very daunting and scary to do an entire project with very minimal access to the autograder, you should feel very confident in your implementation if your randomized tests are really big. With just a few lines of code, you could test your data structures with sizes in the 100,000’s and all sorts of random method calls in random order. In other words, you are testing a whole lot of cases on your data structures and are likely testing every possible edge case! This is the beauty of randomized testing: it allows us to leave the creativity of thinking of edge cases to randomness.
+虽然在很少接触自动签名器的情况下完成整个项目看起来非常令人畏惧和恐惧，但如果你的随机测试真的很大，你应该对你的实现感到非常自信。只需几行代码，您就可以测试数据结构，其大小为100000，并且可以按随机顺序进行各种随机方法调用。换句话说，您正在测试数据结构上的大量案例，并且很可能正在测试每个可能的边缘案例！这就是随机测试的美妙之处：它允许我们将边缘案例的创造性留给随机性。
 
 The tests you create will not be graded, but there is an additional extra credit portion of this project in which you will write your own autograder. Details near the bottom of the spec.
 
-**Your code will not compile on the full autograder until you implement the `Deque` interface and all of the required methods.** So if you’ve done everything on the spec up until this point, you should be using the checkpoint grader and not the full grader.
-
-## Extra Credit: Autograder
-
-For 32 points of extra credit, you can create your own autograder for deques! Full details are on [this](https://sp21.datastructur.es/materials/proj/proj1/proj1ec) spec (to avoid cluttering this one). It is due the same day as Project 1 (2/16). You can use slip days on extra credit assignments, but understand that staff will prioritize the required portions when helping students on Ed and in Office Hours. We don’t suggest working on this extre credit assignment until you’ve finished the entire project, so keep this in mind but continue with the assignment for now.
+**Your code will not compile on the full autograder until you implement the `Deque` interface and all of the required methods.** So if you’ve done everything on the spec up until this point, you should be using the checkpoint grader and not the full grader
 
 ## MaxArrayDeque
 
-After you’ve fully implemented your `ArrayDeque` and tested its correctness, you will now build the `MaxArrayDeque`. A `MaxArrayDeque` has all of the methods that an `ArrayDeque` has, but it also has 2 additional methods and a new constructor:
+在完全实现“`ArrayDeque`”并测试其正确性之后，现在将构建“`MaxArrayDeque`'”。“`MaxArrayDeque`”具有“`ArrayDeque`”所具有的所有方法，但它还有两个额外的方法和一个新的构造函数：
 
 - `public MaxArrayDeque(Comparator<T> c)`: creates a `MaxArrayDeque` with the given `Comparator`.
-- `public T max()`: returns the maximum element in the deque as governed by the previously given `Comparator`. If the `MaxArrayDeque` is empty, simply return `null`.
-- `public T max(Comparator<T> c)`: returns the maximum element in the deque as governed by the parameter `Comparator c`. If the `MaxArrayDeque` is empty, simply return `null`.
+- `public T max()`: returns the maximum element in the deque as governed by the previously given `Comparator`. If the `MaxArrayDeque` is empty, simply return `null`.返回由前面给定的“Comparator”控制的deque中的最大元素。如果“MaxArrayDeque”为空，只需返回“null”。
+- `public T max(Comparator<T> c)`: returns the maximum element in the deque as governed by the parameter `Comparator c`. If the `MaxArrayDeque` is empty, simply return `null`.返回由参数“Comparator c”控制的deque中的最大元素。如果“MaxArrayDeque”为空，只需返回“null”。
 
 The `MaxArrayDeque` can either tell you the max element in itself by using the `Comparator<T>` given to it in the constructor, or an arbitrary `Comparator<T>` that is different from the one given in the constructor.
 
 We do not care about the `equals(Object o)` method of this class, so feel free to define it however you think is most appropriate. We will not test this method.
 
-If you find yourself starting off by copying your entire `ArrayDeque` implementation in a `MaxArrayDeque` file, then you’re doing it wrong. This is an exercise in clean code, and redundancy is one our worst enemies when battling complexity! For a hint, re-read the second sentence of this section above.
+如果您发现自己从将整个“ArrayDeque”实现复制到“MaxArrayDeque”文件中开始，那么您就错了。这是一个干净代码的练习，冗余是我们对抗复杂性时最大的敌人之一！如需提示，请重新阅读上文本节的第二句。
 
 There are no runtime requirements on these additional methods, we only care about the correctness of your answer. Sometimes, there might be multiple elements in the `MaxArrayDeque` that are all equal and hence all the max: in in this case, you can return any of them and they will be considered correct.
 
-You should write tests for this part as well! They do not need to be nearly as robust as your randomized and timing tests you created for the two Deque implementations above since the functionality you’re adding is fairly simple. You’ll likely be creating multiple `Comparator<T>` classes to test your code: this is the point! To get practice using `Comparator` objects to do something useful (find the maximum element) and to get practice writing your own `Comparator` classes. You will not be turning in these tests, but we still highly suggest making them for your sake.
+你也应该为这个部分写测试！它们不需要像您为上述两个Deque实现创建的随机和定时测试一样健壮，因为您添加的功能相当简单。您可能会创建多个“Comparator＜T＞”类来测试代码：这就是重点！练习使用“Comparator”对象做一些有用的事情（找到最大元素），并练习编写自己的“Comparator”类。您将不会提交这些测试，但我们仍然强烈建议您进行这些测试。
 
 You will not use the `MaxArrayDeque` you made for the next part. It is it’s own isolated exercise.
 
 ## Deque Interface
 
-In the last part of this project, we’re actually going to use the data structure you made to solve a real world problem.
+在本项目的最后一部分，我们实际上将使用您制作的数据结构来解决现实世界中的问题。
 
 Recall that we defined the `Deque` API, or behavior, by the following methods:
 
-```
+```java
 public void addFirst(T item)
 public void addLast(T item)
 public boolean isEmpty()
@@ -237,13 +189,13 @@ public T get(int index)
 
 Since your program will rely on this behavior, it shouldn’t matter to it what `Deque` implementation it is provided, `ArrayDeque` or `LinkedListDeque`, and should work for both. To achieve this, we will use the power of interfaces.
 
-This first task is going to be a little tedious, but it won’t take long.
+第一项任务会有点乏味，但不会花很长时间。
 
-Create an interface in a new file named `Deque.java` that contains all of the methods above. In IntelliJ, use “New → Java Class”. IntelliJ will assume you want a class, so make sure to replace the `class` keyword with `interface`. Don’t forget to declare that the `Deque` interface is part of the `deque` package!
+Create an interface in a new file named `Deque.java` that contains all of the methods above. In IntelliJ, use “New → Java Class”. IntelliJ will assume you want a class, so make sure to replace the `class` keyword with `interface`. **Don’t forget to declare that the `Deque` interface is part of the `deque` package!**
 
 Modify your `LinkedListDeque` and/or `ArrayDeque` so that they implement the `Deque` interface by adding `implements Deque<T>` to the line declaring the existence of the class. If IntelliJ yells at you with an error message like:
 
-```
+```java
 The method ... of type LinkedListDeque has the same erasure as ... of type Deque but does not override it.
 ```
 
@@ -257,7 +209,7 @@ Now, after you’ve implemented the `Deque` interface and removed the `isEmpty()
 
 ## Guitar Hero
 
-In this part of the project, we will create another package for generating synthesized musical instruments using the `deque` package we just made. We’ll get the opportunity to use our data structure for implementing an algorithm that allows us to simulate the plucking of a guitar string.
+在该项目的这一部分中，我们将使用刚刚制作的“deque”软件包创建另一个用于生成合成乐器的软件包。我们将有机会使用我们的数据结构来实现一种算法，该算法允许我们模拟吉他弦的拨弦。
 
 ### The GH2 Package
 
@@ -265,7 +217,7 @@ The `gh2` package has just one primary component that you will edit:
 
 - `GuitarString`, a class which uses an `Deque<Double>` to implement the [Karplus-Strong algorithm](http://en.wikipedia.org/wiki/Karplus–Strong_string_synthesis) to synthesize a guitar string sound.
 
-We’ve provided you with skeleton code for `GuitarString` which is where you will use your `deque` package that you made in the first part of this project.
+We’ve provided you with skeleton code for `GuitarString` which is where **you will use your `deque` package that you made in the first part of this project.**
 
 ## GuitarString
 
@@ -273,11 +225,11 @@ We want to finish the `GuitarString` file, which should use the `deque` package 
 
 The Karplus-Algorithm is simply the following three steps:
 
-1. Replace every item in a `Deque` with random noise (`double` values between -0.5 and 0.5).
-2. Remove the front double in the `Deque` and average it with the next double in the `Deque` (hint: use `removeFirst)` and `get()`) multiplied by an energy decay factor of 0.996 (we’ll call this entire quantity `newDouble`). Then, add `newDouble` to the back of the `Deque`.
-3. Play the `double` (`newDouble`) that you dequeued in step 2. Go back to step 2 (and repeat forever).
+1. Replace every item in a `Deque` with random noise (`double` values between -0.5 and 0.5).将“Deque”中的每个项目替换为随机噪声（“double”值介于-0.5和0.5之间）。
+2. Remove the front double in the `Deque` and average it with the next double in the `Deque` (hint: use `removeFirst)` and `get()`) multiplied by an energy decay factor of 0.996 (we’ll call this entire quantity `newDouble`). Then, add `newDouble` to the back of the `Deque`.删除“Deque”中的前双精度，并将其与“Deque（提示：使用“removeFirst）”和“get（）”中的下一个双精度相乘，乘以0.996的能量衰减因子（我们将此整个量称为“newDouble”）。然后，在“Deque”后面添加“newDouble”。
+3. Play the `double` (`newDouble`) that you dequeued in step 2. Go back to step 2 (and repeat forever).播放在步骤2中退出队列的“double”（“newDouble”）。返回步骤2（并永远重复）。
 
-Or visually, if the `Deque` is as shown on the top, we’d remove the 0.2, combine it with the 0.4 to form 0.2988, add the 0.2988, and play the 0.2.
+Or visually, if the `Deque` is as shown on the top, we’d remove the 0.2, combine it with the 0.4 to form 0.2988, add the 0.2988, and play the 0.2.或者从视觉上看，如果“Deque”如顶部所示，我们将删除0.2，将其与0.4组合成0.2988，添加0.2988并播放0.2。
 
 ![karplus-strong](https://sp21.datastructur.es/materials/proj/proj1/karplus-strong.png)
 
