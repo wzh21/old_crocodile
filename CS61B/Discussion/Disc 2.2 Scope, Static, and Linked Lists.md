@@ -24,6 +24,8 @@
 
 因为是static的change方法改变了类属性static的trainer
 
+> ==**poke是那个box的名字**==
+
 <img src="C:\Users\weiziheng\AppData\Roaming\Typora\typora-user-images\image-20230124111721670.png" alt="image-20230124111721670" style="zoom:50%;" />
 
 重要!!!!!!!!!!!!!!!: ==**传值!!!!!!!!传的是地址, poke绑定在这个地址上, 但是和外部的p无关!!!**==

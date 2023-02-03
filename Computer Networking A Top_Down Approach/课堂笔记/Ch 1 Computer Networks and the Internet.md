@@ -1,6 +1,6 @@
+​                                                   [小林coding](https://xiaolincoding.com/network/#%E9%80%82%E5%90%88%E4%BB%80%E4%B9%88%E7%BE%A4%E4%BD%93)
 
-
- 								 **Chapter 1: Computer Networks and the Internet**
+​		 **Chapter 1: Computer Networks and the Internet**
 
 # 1.1 What is the Internet?
 
@@ -320,3 +320,4 @@ L / R -> 8000 / 100 Mbps 答案是B
 # 1.7 History of Computer Networking; Chapter 1 Summary
 
 > 略
+
